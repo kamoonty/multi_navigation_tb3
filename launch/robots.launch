@@ -1,0 +1,34 @@
+<launch> 
+  <!-- ROBOT 1 -->
+  <group ns="lizi1">
+    <param name="tf_prefix" value="lizi1" />
+    <param name="amcl/initial_pose_x" value="20" />
+    <param name="amcl/initial_pose_y" value="15" />
+    <include file="$(find gazebo_navigation_multi)/launch/one_robot.launch" >
+      <arg name="init_pose" value="-x 20 -y 15 -z 0" />     
+      <arg name="robot_name" value="lizi1" />
+    </include>
+  </group>
+
+  <!-- ROBOT 2 -->
+  <group ns="lizi2">
+    <param name="tf_prefix" value="lizi2" />
+    <param name="amcl/initial_pose_x" value="22" />
+    <param name="amcl/initial_pose_y" value="15" />
+    <include file="$(find gazebo_navigation_multi)/launch/one_robot.launch" >      
+      <arg name="init_pose" value="-x 22 -y 15 -z 0" />
+      <arg name="robot_name" value="lizi2" />
+    </include>
+  </group>
+
+  <!-- ROBOT 3 -->
+  <group ns="lizi3">
+    <param name="tf_prefix" value="lizi3" />
+    <param name="amcl/initial_pose_x" value="24" />
+    <param name="amcl/initial_pose_y" value="15" /> 
+    <include file="$(find gazebo_navigation_multi)/launch/one_robot.launch" >      
+      <arg name="init_pose" value="-x 24 -y 15 -z 0" />
+      <arg name="robot_name" value="lizi3" />
+    </include>
+  </group>
+</launch>

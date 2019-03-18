@@ -1,0 +1,32 @@
+<launch>
+    <arg name="robot_name"/>
+    <arg name="init_pose"/>
+    
+    <param name="robot_description" command="$(find xacro)/xacro.py $(find lizi_description)/urdf/lizi.urdf"/>
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="$(arg init_pose) -urdf -param robot_description -model $(arg robot_name)" output="screen"/>
+
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node pkg="robot_state_publisher" type="robot_state_publisher" 
+          name="robot_state_publisher" output="screen"/>      
+
+    <!-- Run navigation stack 
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">  
+      <remap from="map" to="/map" />         
+      <param name="controller_frequency" value="10.0" />
+      <rosparam file="$(find gazebo_navigation_multi)/move_base_config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find gazebo_navigation_multi)/move_base_config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find gazebo_navigation_multi)/move_base_config/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find gazebo_navigation_multi)/move_base_config/global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find gazebo_navigation_multi)/move_base_config/base_local_planner_params.yaml" command="load" />      
+    </node>   
+-->
+    <node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
+      <param name="odom_frame_id" value="$(arg robot_name)/odom" />
+      <param name="base_frame_id" value="$(arg robot_name)/base_link" />
+    </node>
+
+   <!--<include file="$(find gazebo_navigation_multi)/move_base_config/amcl_node.xml"/> -->
+   
+   <node pkg="tf" type="static_transform_publisher" name="laser_link_broadcaster" args="0 0 1 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/laser_link 100" />
+
+</launch>

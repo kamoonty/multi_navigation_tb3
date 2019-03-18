@@ -1,0 +1,35 @@
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find turtlebot3_navigation)/maps/map.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node>   
+  
+  <!-- start gazebo --> 
+<include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="false"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- include Lizi robots   -->
+  <group ns="lizi1">
+    <param name="tf_prefix" value="lizi1" />
+    <param name="amcl/initial_pose_x" value="0.5" />
+    <param name="amcl/initial_pose_y" value="0.5" />
+    <include file="$(find gazebo_navigation_multi)/launch/one_robot.launch" >
+      <arg name="init_pose" value="-x 0.5 -y 0.5 -z 0" />     
+      <arg name="robot_name" value="lizi1" />
+    </include>
+  </group>
+  
+
+
+
+
+
+</launch>

@@ -1,0 +1,6 @@
+<launch>
+  
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_navigation_multi)/rviz/single_tb3_ns_rviz.rviz"/>
+
+</launch>

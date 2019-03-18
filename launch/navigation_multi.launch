@@ -1,0 +1,17 @@
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find gazebo_navigation_multi)/maps/willow-full.png 0.1" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node>   
+  
+  <!-- start gazebo --> 
+  <include file="$(find gazebo_navigation_multi)/launch/willowgarage_world.launch"/>
+
+  <!-- include our robots -->
+  <include file="$(find gazebo_navigation_multi)/launch/robots.launch"/>
+   
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_navigation_multi)/multi_robot.rviz" />
+
+</launch>

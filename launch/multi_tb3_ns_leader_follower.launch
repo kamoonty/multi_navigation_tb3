@@ -1,0 +1,76 @@
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+  <arg name="open_rviz" default="true"/>
+
+  <arg name="map_path1" default="$(find turtlebot3_nps)/maps/multi_map.yaml"/>
+  <arg name="map_path2" default="$(find turtlebot3_navigation)/maps/map.yaml"/>
+  <arg name="world_path1" default="$(find turtlebot3_nps)/worlds/watkinslab.world"/>
+  <arg name="world_path2" default="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
+  
+
+
+
+  <node pkg="map_server" type="map_server" name="map_server" args="$(arg map_path1)" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node>   
+   <!-- RVIZ  --> 
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+         args="-d $(find gazebo_navigation_multi)/rviz/single_tb3_ns_rviz.rviz"/>
+  </group>
+
+
+  <!-- start gazebo --> 
+<include file="$(find gazebo_ros)/launch/empty_world.launch">
+   
+    <arg name="world_name" value="$(arg world_path1)"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="false"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+
+<!-- LEADER Turtlebot 0  -->
+  <group ns="tb3_0">
+    <param name="tf_prefix" value="tb3_0" />
+    <param name="amcl/initial_pose_x" value="0" />
+    <param name="amcl/initial_pose_y" value="0" />
+
+    <include file="$(find gazebo_navigation_multi)/launch/leader_tb3.launch" >
+      <arg name="init_pose" value="-x 0 -y 0 -z 0" />     
+      <arg name="robot_name" value="tb3_0" />
+    </include>
+    
+  </group>
+
+
+  
+<!-- FOLLOWER Turtlebot 1 -->
+  <group ns="tb3_1">
+    <param name="tf_prefix" value="tb3_1" />
+    <param name="amcl/initial_pose_x" value="0" />
+    <param name="amcl/initial_pose_y" value="0.6" />
+
+    <include file="$(find gazebo_navigation_multi)/launch/follower_tb3.launch" >
+      <arg name="init_pose" value="-x 0 -y 0.6 -z 0" />     
+      <arg name="robot_name" value="tb3_1" />
+    </include>
+  </group>
+
+<!-- include Turtlebot 3 
+  <group ns="tb3_2">
+    <param name="tf_prefix" value="tb3_2" />
+    <param name="amcl/initial_pose_x" value="0" />
+    <param name="amcl/initial_pose_y" value="-0.6" />
+
+    <include file="$(find gazebo_navigation_multi)/launch/one_tb3.launch" >
+      <arg name="init_pose" value="-x 0 -y -0.6 -z 0" />     
+      <arg name="robot_name" value="tb3_2" />
+    </include>
+  </group>
+-->
+
+</launch>

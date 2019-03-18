@@ -1,0 +1,22 @@
+<launch>
+  <!-- BEGIN ROBOT 1 -->
+  <group ns="lizi1">
+    <param name="goal_x" value="20" />
+    <param name="goal_y" value="17" />
+    <param name="goal_theta" value="0" />
+    <node pkg="gazebo_navigation_multi" type="gazebo_send_goal" respawn="false" name="send_goal" output="screen" args="lizi1"/>
+  </group>
+  <!-- END ROBOT 0 -->
+
+  <!-- BEGIN ROBOT 2 -->
+  <!--<group ns="lizi2">
+    <param name="goal_x" value="10.12" />
+    <param name="goal_y" value="12.97" />
+    <param name="goal_theta" value="45" />
+    <node pkg="gazebo_navigation_multi" type="gazebo_send_goal" respawn="false" name="send_goal" output="screen" args="lizi2"/>
+  </group>-->
+  <!-- END ROBOT 1 -->
+</launch>
+
+  
+
